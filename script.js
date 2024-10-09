@@ -6,12 +6,16 @@ window.onload = (event) => {
 };
 
 function fetchColors() {
-    fetch('./colors.csv')
+    fetch('colors.json')
         .then(response => response.json())
         .then(data => console.log(data));
 }
 
+function getRandomColor(){
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
 function changeColor() {
-    document.getElementById('background').style.backgroundColor = 'red'
+    document.getElementById('background').style.backgroundColor = getRandomColor()
     document.getElementById('label_color').textContent = colors;
 }
