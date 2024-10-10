@@ -2,8 +2,8 @@
 
 /* For smart phones */
 @media screen and (max-width: 600px) {
-	h1      { font-size: 3rem;}	
-	button  { font-size:  1rem;}
+	h1      { font-size: 6rem;}	
+	button  { font-size:  2rem;}
 }
 
 /* For tablets */
