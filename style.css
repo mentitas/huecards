@@ -1,7 +1,31 @@
 *{	font-family: "Lucida Console", monospace;}
 
-h1      { font-size:  9rem; background: black; color: white; padding: 20px;}	
-button  { font-size:  3rem; background: black; color: white; padding: 20px;}
+h1 { 
+	font-size: 9rem;
+    background: black;
+    color: white;
+    padding: 20px;
+}
+
+button  {
+	font-size:  3rem;
+	background: black;
+	color: white;
+	padding: 20px;
+	border: none;
+  	text-decoration: none;
+  	box-shadow: 0 9px white;
+  	transition-duration: 0.1s;
+}
+
+button:hover {
+	background: #0f0f0f;
+}
+
+button:active {
+  box-shadow: 0 3px white;
+  transform: translateY(6px);
+}
 
 body {
     display: flex;
