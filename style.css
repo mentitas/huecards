@@ -1,22 +1,13 @@
 *{	font-family: "Lucida Console", monospace;}
 
-/* For smart phones */
-@media screen and (max-width: 600px) {
-	h1      { font-size:  6rem;}	
-	button  { font-size:  2rem;}
-}
-
-/* For desktop computers */
-@media screen and (min-width: 600px) {
-	h1      { font-size:  9rem;}	
-	button  { font-size:  3rem;}
-}
+h1      { font-size:  9rem; background: black; color: white; padding: 20px;}	
+button  { font-size:  3rem; background: black; color: white; padding: 20px;}
 
 body {
     display: flex;
     flex-direction: column;
     justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
+    align-items: center;     /* Center horizontally */
     text-align: center;
     height: 90vh
 }
