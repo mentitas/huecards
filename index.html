@@ -2,19 +2,30 @@
 <html>
 <title>Hue Cards Generator</title>
 
-
-<body id="background">
+<link rel="icon" type="image/x-icon" href="icon.png">
 <link rel="stylesheet" href="style.css" />
 
-<h1 id="label_color">...</h1>	
 
-<p>
+<body id="background">
+
+<section>
+<h1 id="label_color">...</h1>	
 	<button id="button_next_color"
 			type="button"
+			class="big_button"
 			onclick="changeColor()">
 				<b>¡Otro color!</b>
 	</button>
-</p>
+</section>
+
+<footer>
+	<a href="https://github.com/mentitas/huecards"
+	   target="_blank"
+	   style="color: black;"
+	   >
+	   <h3> Hecho por Florencia Rosenzuaig </h3>
+	</a>
+</footer>
 
 <script type="text/javascript" src="colors.json"></script>
 <script type="text/javascript" src="script.js"  ></script>

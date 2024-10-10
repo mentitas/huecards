@@ -7,15 +7,15 @@ h1 {
     padding: 20px;
 }
 
-button  {
+button {
 	font-size:  5rem;
 	background: black;
 	color: white;
 	padding: 20px;
 	border: none;
-  	text-decoration: none;
-  	box-shadow: 0 9px white;
-  	transition-duration: 0.1s;
+  text-decoration: none;
+  box-shadow: 0 9px white;
+  transition-duration: 0.05s;
 }
 
 button:hover {
@@ -27,11 +27,11 @@ button:active {
   transform: translateY(6px);
 }
 
-body {
+section {
     display: flex;
     flex-direction: column;
     justify-content: center; /* Center vertically */
     align-items: center;     /* Center horizontally */
     text-align: center;
-    height: 90vh
+    height: 85vh
 }
