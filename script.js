@@ -12,5 +12,5 @@ function changeColor() {
     formatted_number = ("0" + number).slice(-2);
 
     document.getElementById('background').style.backgroundColor = colors[letter][number]
-    document.getElementById('label_color').textContent = letter + formatted_number;
+    document.getElementById('label_color').textContent = letter + "-" + formatted_number;
 }
