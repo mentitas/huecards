@@ -1,8 +1,17 @@
-h1 {
-	display:inline;
-	font-size:10em;
+/* For smart phones */
+@media screen and (max-width: 600px) {
+	h1      { font-size: 3rem;}	
+	button  { font-size:  1rem;}
 }
 
-button {
-	font-size: 3em;
+/* For tablets */
+@media screen and (min-width: 600px) and (max-width: 900px) {
+	h1      { font-size: 6rem;}	
+	button  { font-size:  2rem;}
+}
+
+/* For desktop computers */
+@media screen and (min-width: 900px) {
+	h1      { font-size: 9rem;}	
+	button  { font-size:  3rem;}
 }
