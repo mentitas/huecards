@@ -13,7 +13,10 @@
 }
 
 body {
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
     text-align: center;
+    height: 100vh
+    display: flex;
+    flex-direction: column;
 }
