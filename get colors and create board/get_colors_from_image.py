@@ -19,10 +19,10 @@ def save_to_csv():
                 row.append(f"{r:02x}{g:02x}{b:02x}")
             writer.writerow(row)
 
+alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"];
 def save_to_json():
 
     dictionary = {}
-    alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"];
 
     index = 0
     for y in range(18, height, 37):
@@ -55,24 +55,3 @@ def save_to_numpy_array():
             color_matrix[x,y,2] = b
 
     return color_matrix
-
-
-def create_board(square_size, matrix):
-    
-    height, width, _ = matrix.shape
-    
-    board_image = Image.new('RGB', (width * square_size, height * square_size))
-    
-    for i in range(height):
-        for j in range(width):
-            color = tuple(matrix[i, j])
-            square       = Image.new('RGB', (square_size-7, square_size-7), color)
-            black_square = Image.new('RGB', (square_size,   square_size), "black")
-            board_image.paste(black_square, (j * square_size, i * square_size))
-            board_image.paste(square, (j * square_size, i * square_size))
-    
-    board_image.save('board.png')
-    board_image.show()
-
-matrix = save_to_numpy_array()
-create_board(100, matrix)
