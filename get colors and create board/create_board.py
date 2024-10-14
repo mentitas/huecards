@@ -3,85 +3,79 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import qrcode
 
+def draw_gray_rectangles(image, y, base_size, border, colors):
+
+    for index, color in enumerate(colors):
+        rectangle = Image.new('RGB', (base_size - border, base_size*2-border), (color,color,color))
+        image.paste(rectangle, (index * base_size, y))
+
+def write_numbers(image, y, spacing, numbers):
+    
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype(font='monospace.ttf', size=100)
+
+    for index, number in enumerate(numbers):
+        if number != "":
+            label = '{:0>2}'.format(number)
+            draw.text((index*spacing+30, y), label, fill="white", font=font)
+    
+def write_axis(image, spacing, x_axis, y_axis):
+
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype(font='monospace.ttf', size=100)
+    
+    # Escribo las letras de la derecha
+    write_letters(image, 30, spacing, y_axis)
+    for index, elem in enumerate(y_axis):
+        label = '{: >2}'.format(elem)
+        pos = (30, (index+1)*spacing+30)
+        draw.text(pos, label, fill="white", font=font)
+
+    # Escribo los números de arriba
+    for index, elem in enumerate(x_axis):
+        label = '{:0>2}'.format(elem)
+        pos = ((index+1)*spacing+30, 30)
+        draw.text(pos, label, fill="white", font=font)
+
 def create_board(matrix, square_size, border):
     
     # Creo cuadricula de colores
     height, width, _ = matrix.shape
 
+    # A3  = 3508 x 4960
     # A3+ = 3720 x 5433
-    board  = Image.new('RGB', (5433, 3720), "black")
+    board  = Image.new('RGB', (4960, 3508), "black")
     colors = Image.new('RGB', (32*square_size, 18*square_size), "black")
 
     # Armo los cuadrados de colores
-    for j in range(16):
-        for i in range(30):
-            color  = tuple(matrix[i, j])
+    for y in range(width):
+        for x in range(height):
+            color  = tuple(matrix[x, y])
             square = Image.new('RGB', (square_size - border,  square_size - border), color)
-            colors.paste(square, ((i+1) * square_size, (j+1) * square_size))
-
-    draw = ImageDraw.Draw(colors)
-    font = ImageFont.truetype(font='monospace.ttf', size=100)
+            colors.paste(square, ((x+1) * square_size, (y+1) * square_size))
     
-    # Escribo las letras de la derecha
-    for j in range(16):
-        draw.text((30, (j+1)*square_size+30), '{: >2}'.format(alphabet[j]), fill="white", font=font)
-
-    # Escribo los números de arriba
-    for i in range(30):
-        letter =  '{:0>2}'.format(i+1)
-        draw.text(((i+1)*square_size+30, 30),  letter, fill="white", font=font)
-
+    write_axis(colors, square_size, range(1,31), alphabet)
     colors=colors.rotate(180)
-    draw = ImageDraw.Draw(colors)
-
-    # Escribo las letras de la izquierda
-    for j in range(16):
-        draw.text((30, (j+1)*square_size+30), '{: >2}'.format(alphabet[15-j]), fill="white", font=font)
-    
-    # Escribo los números de abajo
-    for i in range(30):
-        letter =  '{:0>2}'.format(30-i)
-        draw.text(((i+1)*square_size+30, 30),  letter, fill="white", font=font)
-
+    write_axis(colors, square_size, range(30,0,-1), alphabet[::-1])
     colors=colors.rotate(180)
 
-    margin = (5433 - square_size*32)//2
-    board.paste(colors, (margin,0))
+    margin = (4960 - square_size*32)//2
+    board.paste(colors, (margin,margin))
 
     points = Image.new('RGB', (25*square_size, 4*square_size), "black")
 
-    # Armo la primer fila de rectángulos grises
-    gris = 50
-    for i in range(25):
-        square = Image.new('RGB', (square_size - border,     square_size*2-border), (gris, gris, gris))
-        points.paste(square, (i * square_size, 0))
-        gris = gris + 3
-
-    # Armo la segunda fila de rectángulos grises
-    gris = 50+50*3
-    for i in range(25):
-        square = Image.new('RGB', (square_size - border,     square_size*2-border), (gris, gris, gris))
-        points.paste(square, (i * square_size, square_size*2))
-        gris = gris - 3
-
+    draw_gray_rectangles(points,             0, square_size, border, range(50,126,3))
+    draw_gray_rectangles(points, square_size*2, square_size, border, range(200,125,-3))
 
     draw = ImageDraw.Draw(points)
+    font = ImageFont.truetype(font='monospace.ttf', size=100)
 
-    # Pongo los números de la primer fila
-    for i in range(5, 26, 5):
-        letter =  '{:0>2}'.format(i)
-        draw.text(((i-1)*square_size+30, square_size+30),  letter, fill="white", font=font)
-    
-    # Pongo los números de la primer fila
-    for i in range(0, 26, 5):
-        letter =  '{:0>2}'.format(50-i)
-        draw.text((i*square_size+30, square_size*3+ 30),  letter, fill="white", font=font)
-    
+    write_numbers(points,   square_size+30, square_size, [ i if i % 5 == 0 else "" for i in range(1,26)])
+    write_numbers(points, 3*square_size+30, square_size, [ i if i % 5 == 0 else "" for i in range(50,25,-1)])
 
     points = points.rotate(180)
 
-    board.paste(points, (margin+square_size, square_size*18))
-
+    board.paste(points, (margin+square_size, 3508-margin-square_size*4))
 
     board = board.rotate(180)
 
@@ -93,17 +87,25 @@ def create_board(matrix, square_size, border):
     titulo = r"""Hues
  and
 Cues"""
-    descripcion_qr = r"""¡Accedé al QR para
-ver qué color te
-toca describir!"""
-    draw.text((90,670),"Este tablero está 100% hecho en Python :-]", fill="white", font=ImageFont.truetype(font='monospace.ttf', size=30))
-    draw.text((90,490),descripcion_qr, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=50))
-    draw.text((620,50),titulo, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=200))
+    descripcion_qr = r"""¡Accedé al QR
+para ver qué color
+te toca describir!"""
+    comentario = r"""Este tablero fue hecho por
+Florencia Rosenzuaig y está 100%
+escrito en Python :-]"""
 
-    board = board.rotate(180)
+    draw.text((90,490),descripcion_qr, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=70))
+    draw.text((575,50),titulo, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=150))
+
+    board = board.rotate(90, expand=True)
+    draw = ImageDraw.Draw(board)
+
+    draw.text((90,90),comentario, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=40))
+    
+    board = board.rotate(90, expand=True)
     board.show()
     board.save("board.png")
 
 
 matrix = save_to_numpy_array()
-create_board(matrix, 165, 15)
+create_board(matrix, 150, 15)
