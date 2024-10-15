@@ -25,7 +25,6 @@ def write_axis(image, spacing, x_axis, y_axis):
     font = ImageFont.truetype(font='monospace.ttf', size=100)
     
     # Escribo las letras de la derecha
-    write_letters(image, 30, spacing, y_axis)
     for index, elem in enumerate(y_axis):
         label = '{: >2}'.format(elem)
         pos = (30, (index+1)*spacing+30)
@@ -90,9 +89,9 @@ Cues"""
     descripcion_qr = r"""¡Accedé al QR
 para ver qué color
 te toca describir!"""
-    comentario = r"""Este tablero fue hecho por
-Florencia Rosenzuaig y está 100%
-escrito en Python :-]"""
+    comentario = r"""Este tablero fue programado 100%
+en Python por Flor Rosenzuaig :-]"""
+
 
     draw.text((90,490),descripcion_qr, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=70))
     draw.text((575,50),titulo, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=150))
@@ -100,7 +99,7 @@ escrito en Python :-]"""
     board = board.rotate(90, expand=True)
     draw = ImageDraw.Draw(board)
 
-    draw.text((90,90),comentario, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=40))
+    draw.text((90,145),comentario, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=40))
     
     board = board.rotate(90, expand=True)
     board.show()
