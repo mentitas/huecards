@@ -99,7 +99,7 @@ en Python por Flor Rosenzuaig :-]"""
     board = board.rotate(90, expand=True)
     draw = ImageDraw.Draw(board)
 
-    draw.text((90,145),comentario, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=40))
+    draw.text((90,145),comentario, fill="white", font=ImageFont.truetype(font='monospace.ttf', size=35))
     
     board = board.rotate(90, expand=True)
     board.show()
